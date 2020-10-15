@@ -67,5 +67,8 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema
+        .dropTableIfExists('client_classes')
+        .dropTableIfExists('instructor_classes')
+        .dropTableIfExists('users');
 };
