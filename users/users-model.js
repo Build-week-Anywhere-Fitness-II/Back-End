@@ -20,7 +20,7 @@ async function add(user) {
     // return findById(id);
     //updating this so it works with postgress
 
-    return await db('users').insert(user,['name', 'username', 'role'])
+    return await db('users').insert(user,['id', 'name', 'username', 'role'])
 }
 
 function findById(id) {
