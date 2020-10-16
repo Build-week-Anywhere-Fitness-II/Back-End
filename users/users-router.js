@@ -11,7 +11,8 @@ router.post("/register", (req, res, next) => {
 
     Users.add(user)
       .then((saved) => {
-          res.status(201).json(saved);
+          const token = generateToken(user);
+          res.status(201).json({userDetails: saved, token: token});
       })
       .catch((err) => {
         next({ apiCode: 500, apiMessage: "Error saving new user", ...err });
@@ -25,7 +26,7 @@ router.post("/login", (req, res, next) => {
      .then((user) => {
          if (user && bcrypt.compareSync(password, user.password)) {
             const token = generateToken(user);
-            res.status(200).json({ message: `Welcome ${user.name}!`, role: user.role, token })
+            res.status(200).json({ message: `Welcome ${user.name}!`, id: user.id, role: user.role, token })
          } else {
             next({ apiCode: 404, apiMessage: "Invalid credentials", ...err })
          }
