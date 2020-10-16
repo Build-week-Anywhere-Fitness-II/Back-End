@@ -2,7 +2,7 @@
 
 `register`
 method: POST
-Endpoint: /api/users/register
+Endpoint: https://pt-anywhere-fitness.herokuapp.com/api/users/register
 
 registers a user to the database & returns the user's details and an authentication token.
 
@@ -15,7 +15,7 @@ body: {
 
 `post login`
 method: POST
-Endpoint: /api/users/login
+Endpoint: https://pt-anywhere-fitness.herokuapp.com/api/users/login
 
 Logs the user in and returns the user's id, role, and an authentication token.
 
@@ -29,7 +29,7 @@ body: {
 
 `post (instructor only)`
 method: POST
-Endpoint: /api/classes
+Endpoint: https://pt-anywhere-fitness.herokuapp.com/api/classes
 
 Adds a class to the database & returns the class details with the class Id.
 
