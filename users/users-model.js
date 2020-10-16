@@ -16,9 +16,11 @@ function findBy(filter) {
 }
 
 async function add(user) {
-    const [id] = await db("users").insert(user);
+    // const [id] = await db("users").insert(user);
+    // return findById(id);
+    //updating this so it works with postgress
 
-    return findById(id);
+    return await db('users').insert(user,['name', 'username', 'role'])
 }
 
 function findById(id) {
