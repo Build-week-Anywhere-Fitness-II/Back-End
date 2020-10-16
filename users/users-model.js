@@ -21,6 +21,7 @@ async function add(user) {
     //updating this so it works with postgress
 
     return await db('users').insert(user,['id', 'name', 'username', 'role'])
+    //this will not work as expected locally, but does work in prod so we just need to make sure we update any inserts accordingly before pushing to prod
 }
 
 function findById(id) {
