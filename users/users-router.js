@@ -18,3 +18,39 @@ router.post("/register", (req, res, next) => {
       })
 });
 
+router.post("/login", (req, res, next) => {
+    let { username, password } = req.body;
+    Users.findBy({ username })
+     .first()
+     .then((user) => {
+         if (user && bcrypt.compareSync(password, user.password)) {
+            const token = generateToken(user);
+            res.status(200).json({ message: `Welcome ${user.name}!`, role: user.role, token })
+         } else {
+            next({ apiCode: 404, apiMessage: "Invalid credentials", ...err })
+         }
+     })
+     .catch((error) => {
+         next({ apiCode: 500, apiMessage: "Error loggin in", ...err })
+     })
+})
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        iat: Date.now(),
+    };
+
+    const secret = process.env.JWT_SECRET || "Some insecure secret"
+
+    const options = {
+        expiresIn: "1d"
+    };
+
+    const token =  jwt.sign(payload, secret, options);
+
+    return token;
+}
+
+module.exports = router;
