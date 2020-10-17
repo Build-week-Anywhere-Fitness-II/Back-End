@@ -18,6 +18,12 @@ function findBy(filter) {
 async function add(fitnessClass) {
     const [id] = await db("classes").insert(fitnessClass);
 
+    let instructorDetails = {instructor_id: fitnessClass.instructor_id, class_id: id}
+
+    console.log('instructor details', instructorDetails)
+
+    const instructorClasses = await db('instructor_classes').insert(instructorDetails)
+
     return findById(id);
 }
 

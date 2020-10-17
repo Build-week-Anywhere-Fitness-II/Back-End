@@ -30,6 +30,9 @@ exports.up = function(knex) {
         .notNullable();
     tbl.integer('attendees')
     tbl.integer('max_class_size')
+    tbl.integer('instructor_id')
+        .notNullable();
+
   })
 
   .createTable('instructor_classes', tbl => {
