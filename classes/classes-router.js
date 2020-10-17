@@ -14,4 +14,14 @@ router.post("/", roleVerification('instructor'), (req, res, next) => {
       })
 })
 
+router.get('/', (req, res, next) => {
+    Classes.find()
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+        next({apiCode: 500, apiMessage: "error retrieving classes", ...err})
+    })
+})
+
 module.exports = router;

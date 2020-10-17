@@ -8,7 +8,7 @@ module.exports = {
 };
 
 function find() {
-    return db("classes").select("id", "class_name", "type", "class_time", "duration_minutes", "intensity_level", "location", "attendees", "max_class_size");
+    return db("classes").select("id", "class_name", "type", "class_time", "duration_minutes", "intensity_level", "location", "attendees", "max_class_size", "instructor_id");
 }
 
 function findBy(filter) {
@@ -20,7 +20,7 @@ async function add(fitnessClass) {
 
     let instructorDetails = {instructor_id: fitnessClass.instructor_id, class_id: id}
 
-    const instructorClasses = await db('instructor_classes').insert(instructorDetails)
+    await db('instructor_classes').insert(instructorDetails)
 
     return findById(id);
 }
