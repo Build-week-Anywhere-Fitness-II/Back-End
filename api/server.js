@@ -7,6 +7,7 @@ const errorHandler = require("./errorHandler.js");
 const authenticate = require("../auth/authenticate-middleware.js");
 const usersRouter = require("../users/users-router.js");
 const classesRouter = require("../classes/classes-router.js");
+const roleVerification = require('../auth/check-role-middleware.js')
 
 const server = express();
 
@@ -15,7 +16,8 @@ server.use(cors());
 server.use(express.json()); 
 
 server.use("/api/users", usersRouter);
-server.use("/api/classes", authenticate, classesRouter);
+server.use("/api/classes", authenticate, classesRouter, roleVerification);
+
 
 server.get('/', (req, res) => {
     res.status(200).json({message: 'api is up'});

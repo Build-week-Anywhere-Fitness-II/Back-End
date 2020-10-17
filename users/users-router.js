@@ -31,7 +31,7 @@ router.post("/login", (req, res, next) => {
             next({ apiCode: 404, apiMessage: "Invalid credentials", ...err })
          }
      })
-     .catch((error) => {
+     .catch((err) => {
          next({ apiCode: 500, apiMessage: "Error loggin in", ...err })
      })
 })
@@ -40,6 +40,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
+        role: user.role,
         iat: Date.now(),
     };
 
