@@ -4,7 +4,8 @@ module.exports = {
     add,
     find,
     findBy,
-    findById
+    findById,
+    signUp
 };
 
 function find() {
@@ -16,25 +17,23 @@ function findBy(filter) {
 }
 
 async function add(fitnessClass) {
-    // const [id] = await db("classes").insert(fitnessClass);
-    // uncomment for testing locally
-
+    let instructorId = fitnessClass.instructor_id;
     return await db('classes').insert(fitnessClass,[
         'id', 'class_name', 'type', 'class_time', 'duration_minutes', 'intensity_level', 'location', 'attendees', 'max_class_size', 'instructor_id'
-    ])
-    // make sure the return statement above is uncommented before pushing to prod
-
-    let instructorDetails = {instructor_id: fitnessClass.instructor_id, class_id: id}
-
-    // await db('instructor_classes').insert(instructorDetails)
-    // uncomment for testing locally
-    
-    return await db('instructor_classes').insert(instructorDetails)
-    // make sure the return statement above is uncommented before pushing to prod
-
-    return findById(id);
+    ]).then( async function relate(fitnessClass) {
+        let instructorDetails = {instructor_id: instructorId, class_id: fitnessClass.toString()}
+        await db('instructor_classes').insert(instructorDetails)
+    })
 }
 
 function findById(id) {
     return db("classes").where({ id }).first();
+}
+
+async function signUp(client) {
+    let id = client.class_id;
+    
+    await db("classes").where({ id }).increment("attendees")
+
+    return await db("client_classes").insert(client)
 }

@@ -34,7 +34,7 @@ router.post("/login", (req, res, next) => {
      .catch((err) => {
          next({ apiCode: 500, apiMessage: "Error loggin in", ...err })
      })
-})
+});
 
 function generateToken(user) {
     const payload = {

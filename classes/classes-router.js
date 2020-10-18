@@ -24,4 +24,16 @@ router.get('/', (req, res, next) => {
     })
 })
 
+router.post("/signup", (req, res, next) => {
+    const attendee = req.body;
+
+    Classes.signUp(attendee)
+     .then((count) => {
+         res.status(200).json(count)
+     })
+     .catch((err) => {
+         next({ apiCode: 500, apiMessage: "error signin up for class", ...err })
+     })
+})
+
 module.exports = router;
