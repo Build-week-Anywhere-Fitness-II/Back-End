@@ -36,4 +36,17 @@ router.post("/signup", (req, res, next) => {
      })
 })
 
+router.put('/edit/:id', roleVerification('instructor'), (req, res, next) => {
+    let id = req.params.id;
+    let changes = req.body;
+
+    Classes.editClass(id, changes)
+        .then((updated) => {
+            res.status(200).json(updated)
+        })
+        .catch((err) => {
+            next({ apiCode: 500, apiMessage: "error updating class", ...err })
+        })
+})
+
 module.exports = router;

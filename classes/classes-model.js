@@ -5,7 +5,8 @@ module.exports = {
     find,
     findBy,
     findById,
-    signUp
+    signUp,
+    editClass
 };
 
 function find() {
@@ -24,8 +25,21 @@ async function add(fitnessClass) {
             let instructorDetails = {instructor_id: savedFitnessClass[0].instructor_id, class_id: savedFitnessClass[0].id}
             relateInstructor(instructorDetails)
         }
-    )
-    
+    ) 
+}
+
+async function relateInstructor(fitnessClass) {
+    return await db('instructor_classes').insert(fitnessClass)
+}
+
+function editClass(id, changes) {
+    return db('classes')
+        .where({id})
+        .update(changes)
+        .then(() => {
+            return findById(id);
+        });
+
 }
 
 function findById(id) {
@@ -40,6 +54,4 @@ async function signUp(client) {
     return await db("client_classes").insert(client)
 }
 
-async function relateInstructor(fitnessClass) {
-        return await db('instructor_classes').insert(fitnessClass)
-}
+
