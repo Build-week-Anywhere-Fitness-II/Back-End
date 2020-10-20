@@ -32,8 +32,8 @@ async function add(fitnessClass) {
         'id', 'class_name', 'type', 'class_time', 'duration_minutes', 'intensity_level', 'location', 'attendees', 'max_class_size', 'instructor_id'
     ]).then(
         function (savedFitnessClass) {
-            console.log('savedFitnessClass', savedFitnessClass)
-            let instructorDetails = {instructor_id: savedFitnessClass.instructor_id, class_id: savedFitnessClass.id}
+            console.log('savedFitnessClass from add', savedFitnessClass)
+            let instructorDetails = {instructor_id: savedFitnessClass[0].instructor_id, class_id: savedFitnessClass[0].id}
             console.log('instructor details from add', instructorDetails)
             relateInstructor(instructorDetails)
         }
