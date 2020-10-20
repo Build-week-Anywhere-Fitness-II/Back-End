@@ -16,14 +16,29 @@ function findBy(filter) {
     return db("classes").where(filter);
 }
 
+// original code
+// async function add(fitnessClass) {
+//     let instructorId = fitnessClass.instructor_id;
+//     return await db('classes').insert(fitnessClass,[
+//         'id', 'class_name', 'type', 'class_time', 'duration_minutes', 'intensity_level', 'location', 'attendees', 'max_class_size', 'instructor_id'
+//     ]).then( async function relate(fitnessClass) {
+//         let instructorDetails = {instructor_id: instructorId, class_id: fitnessClass.toString()}
+//         return await db('instructor_classes').insert(instructorDetails)
+//     })
+// }
+
 async function add(fitnessClass) {
     let instructorId = fitnessClass.instructor_id;
     return await db('classes').insert(fitnessClass,[
         'id', 'class_name', 'type', 'class_time', 'duration_minutes', 'intensity_level', 'location', 'attendees', 'max_class_size', 'instructor_id'
-    ]).then( async function relate(fitnessClass) {
-        let instructorDetails = {instructor_id: instructorId, class_id: fitnessClass.toString()}
-        return await db('instructor_classes').insert(instructorDetails)
-    })
+    ]).then(
+        function (fitnessClass) {
+            let instructorDetails = {instructor_id: instructorId, class_id: fitnessClass.toString()}
+            console.log('instructorDetails from add model', instructorDetails)
+            relateInstructor(instructorDetails)
+        }
+    )
+    
 }
 
 function findById(id) {
@@ -36,4 +51,10 @@ async function signUp(client) {
     await db("classes").where({ id }).increment("attendees")
 
     return await db("client_classes").insert(client)
+}
+
+// doesn't work to call from outside the add function
+async function relateInstructor(fitnessClass) {
+    console.log('fitness class from relateInstructor', fitnessClass)
+        return await db('instructor_classes').insert(fitnessClass)
 }
