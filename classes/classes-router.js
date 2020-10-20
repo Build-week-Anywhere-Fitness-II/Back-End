@@ -49,4 +49,16 @@ router.put('/edit/:id', roleVerification('instructor'), (req, res, next) => {
         })
 })
 
+router.delete('/delete/:id', roleVerification('instructor'), (req, res, next) => {
+    let id = req.params.id;
+
+    Classes.deleteClass(id)
+    .then(() => {
+        res.status(200).json({message: 'class succesfully deleted'})
+    })
+    .catch((err) => {
+        next({ apiCode: 500, apiMessage: "error deleting class", ...err })
+    })
+})
+
 module.exports = router;

@@ -6,7 +6,8 @@ module.exports = {
     findBy,
     findById,
     signUp,
-    editClass
+    editClass,
+    deleteClass
 };
 
 function find() {
@@ -40,6 +41,12 @@ function editClass(id, changes) {
             return findById(id);
         });
 
+}
+
+function deleteClass(id) {
+    return db('classes')
+        .where({ id })
+        .del();
 }
 
 function findById(id) {
