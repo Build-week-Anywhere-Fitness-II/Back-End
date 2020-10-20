@@ -22,7 +22,7 @@ async function add(fitnessClass) {
         'id', 'class_name', 'type', 'class_time', 'duration_minutes', 'intensity_level', 'location', 'attendees', 'max_class_size', 'instructor_id'
     ]).then( async function relate(fitnessClass) {
         let instructorDetails = {instructor_id: instructorId, class_id: fitnessClass.toString()}
-        await db('instructor_classes').insert(instructorDetails)
+        return await db('instructor_classes').insert(instructorDetails)
     })
 }
 
