@@ -61,4 +61,30 @@ router.delete('/delete/:id', roleVerification('instructor'), (req, res, next) =>
     })
 })
 
+router.get("/client/:id", (req, res, next) => {
+    let id = req.params.id;
+
+    Classes.findClientClasses(id)
+    .then((classList) => {
+        res.status(200).json(classList)
+    })
+    .catch((err) => {
+        next({ apiCode: 500, apiMessage: "error retrieving class list", ...err })
+    })
+})
+
+router.get("/instructor/:id", (req, res, next) => {
+    let id = req.params.id;
+
+    Classes.findInstructorClasses(id)
+    .then((classList) => {
+        res.status(200).json(classList)
+    })
+    .catch((err) => {
+        next({ apiCode: 500, apiMessage: "error retrieving class list", ...err })
+    })
+})
+
+
+
 module.exports = router;

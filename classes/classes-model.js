@@ -7,7 +7,9 @@ module.exports = {
     findById,
     signUp,
     editClass,
-    deleteClass
+    deleteClass,
+    findInstructorClasses,
+    findClientClasses
 };
 
 function find() {
@@ -61,4 +63,16 @@ async function signUp(client) {
     return await db("client_classes").insert(client)
 }
 
+function findClientClasses(id) {
+    return db("classes as c")
+      .join("client_classes as cc", "cc.class_id" ,"c.id")
+      .where("cc.client_id", "=", `${id}`)
+      .orderBy("c.id");
+}
 
+function findInstructorClasses(id) {
+    return db("classes as c")
+      .join("instructor_classes as ic", "ic.class_id" ,"c.id")
+      .where("ic.instructor_id", "=", `${id}`)
+      .orderBy("c.id");
+}
