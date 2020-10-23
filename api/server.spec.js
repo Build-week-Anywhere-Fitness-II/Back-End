@@ -2,18 +2,6 @@ const request = require('supertest');
 const server = require('./server.js');
 const db = require('../database/dbConfig.js');
 const testUser = {name:'testname', username: 'testusername', password: 'password', role: 'instructor'};
-const registeredUser = {username: "Remy", password: "remy2020"}
-const testClass = {
-    class_name: 'test class',
-    type: 'testing',
-    class_time: "10/25/2030:16:30:00",
-    duration_minutes: 60,
-    intensity_level: 1,
-    location: 'test location',
-    attendees: 0,
-    max_class_size: 100,
-    instructor_id: 1
-}
 const classSeeds = [
     {class_name: 'fancy yoga class', type: 'Yoga', class_time: '10/20/2020:12:00:00', duration_minutes: 60, intensity_level: 1, location: 'New York, NY', attendees: '', max_class_size: '', instructor_id: 1},
     {class_name: 'fancy powerlifting class', type: 'strength', class_time: '10/25/2020:12:00:00', duration_minutes: 60, intensity_level: 5, location: 'New York, NY', attendees: '', max_class_size: '', instructor_id: 1},
@@ -22,10 +10,8 @@ const classSeeds = [
 
 // prior to running test suite be sure to migrate the db
 // knex migrate:latest --env=testing
-
 describe('server.js', () => {
     
-    //clears the users table before every test is run
     beforeEach(async () => {
         await db('users').truncate();
         await db('classes').truncate();
@@ -33,7 +19,6 @@ describe('server.js', () => {
 
     
     let token;
-    //inserts our test instructor then grabs & saves our auth token for use in other tests
     beforeAll((done) => {
         request(server)
           .post('/api/users/register')
@@ -48,19 +33,6 @@ describe('server.js', () => {
             done();
           });
       });
-
-    describe('GET /api/', () => {
-        it('should return a status code of 200 if the server is up', async () => {
-            const res = await request(server).get('/')
-            expect(res.status).toBe(200);
-        })
-
-        it('should return a json object', async () => {
-            const res = await request(server).get('/')
-            expect(res.type).toBe('application/json');
-        })
-
-    });
     
     describe('POST /api/users/register', () => {
         it('should return a status code of 201 when registering a user', async () => {
